@@ -15,6 +15,10 @@ public class RouteConfig {
                         .filters(f -> f.rewritePath("/explorer/(?<remaining>.*)", "/${remaining}"))
                         .uri("lb://algorithm-explorer")
                 )
+                .route("files", r-> r.path("/files/**")
+                        .filters(f -> f.rewritePath("/files/(?<remaining>.*)", "/${remaining}"))
+                        .uri("http://filemanager:9000")
+                )
                 .build();
     }
 

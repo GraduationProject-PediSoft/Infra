@@ -3,6 +3,7 @@ package co.edu.javeriana.pedisoft.apigateway.config;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -18,7 +19,8 @@ public class SecurityConfig {
         //TODO Enable security
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(ex -> ex.anyExchange().permitAll())
+                .authorizeExchange(ex -> ex.pathMatchers(HttpMethod.POST, "/files").denyAll()
+                        .anyExchange().permitAll())
                 .build();
     }
 
