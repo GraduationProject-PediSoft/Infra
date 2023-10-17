@@ -17,7 +17,7 @@ public class RouteConfig {
                 )
                 .route("files", r-> r.path("/files/**")
                         .filters(f -> f.rewritePath("/files/(?<remaining>.*)", "/${remaining}"))
-                        .uri("http://filemanager:9000")
+                        .uri("http://filemanager:8080")
                 )
                 .build();
     }
