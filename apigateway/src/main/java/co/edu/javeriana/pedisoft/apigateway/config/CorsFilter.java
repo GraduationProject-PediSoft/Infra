@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 public class CorsFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "*");
+        exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "http://tesis.10.43.101.226.nip.io");
         exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         exchange.getResponse().getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
         exchange.getResponse().getHeaders().add("Access-Control-Max-Age", "3600");
