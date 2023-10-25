@@ -22,6 +22,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http){
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(ServerHttpSecurity.CorsSpec::disable)
                 .authorizeExchange(ex -> ex.pathMatchers(HttpMethod.POST, "/files").denyAll()
                         //This validation is done by the usermanager microservice, so here is not necessary to check
                         .pathMatchers("/user/**").permitAll()
@@ -33,16 +34,5 @@ public class SecurityConfig {
                         )
                 )
                 .build();
-    }
-
-    @Bean
-    public CorsWebFilter corsFilter() {
-        val config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        val source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return new CorsWebFilter(source);
     }
 }
