@@ -15,7 +15,7 @@ public class CorsConfig extends CorsConfiguration {
     public CorsWebFilter corsFilter(){
         val config = new CorsConfiguration();
         config.setAllowCredentials( true );
-        config.setAllowedOrigins( List.of( "*" ) );
+        config.setAllowedOrigins( List.of( "tesis.10.43.101.226.nip.io" ) );
         config.setAllowedMethods( List.of( "GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD" ) );
         config.setAllowedHeaders( List.of( "origin", "content-type", "accept", "authorization", "cookie" ) );
         val source = new UrlBasedCorsConfigurationSource();
