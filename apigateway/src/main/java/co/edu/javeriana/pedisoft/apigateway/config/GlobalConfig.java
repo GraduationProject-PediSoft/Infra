@@ -11,7 +11,7 @@ public class GlobalConfig {
     @Value("${issuerURI}")
     private String issuerURI;
     @Bean
-    public ReactiveJwtDecoder reactiveJwtDecoder(){
+    public NimbusReactiveJwtDecoder reactiveJwtDecoder(){
         return NimbusReactiveJwtDecoder.withIssuerLocation(issuerURI).build();
     }
 }
