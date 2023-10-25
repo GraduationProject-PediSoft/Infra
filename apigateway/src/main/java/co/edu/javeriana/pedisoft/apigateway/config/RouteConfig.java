@@ -15,11 +15,11 @@ public class RouteConfig {
     public RouteLocator staticRoutes(RouteLocatorBuilder builder){
         return builder.routes()
                 .route("explorer", r-> r.path("/explorer/**")
-                        .filters(f -> f.filter(corsFilter).rewritePath("/explorer/(?<remaining>.*)", "/${remaining}").filters())
+                        .filters(f -> f.rewritePath("/explorer/(?<remaining>.*)", "/${remaining}").filters())
                         .uri("lb://algorithm-explorer")
                 )
                 .route("files", r-> r.path("/files/**")
-                        .filters(f -> f.filter(corsFilter).rewritePath("/files/(?<remaining>.*)", "/${remaining}"))
+                        .filters(f -> f.rewritePath("/files/(?<remaining>.*)", "/${remaining}"))
                         .uri("http://filemanager:8080")
                 )
                 .route("usermanager", r -> r.path("/user/**")

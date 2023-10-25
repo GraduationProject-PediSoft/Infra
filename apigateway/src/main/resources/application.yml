@@ -22,3 +22,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${JWKS_URI}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
