@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -19,8 +20,8 @@ import java.util.List;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
-    private String jwksUri;
+    @Value("${issuerURI}")
+    private String issuerURI;
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http){
         return http
@@ -32,7 +33,7 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.jwt(
-                                it -> it.jwkSetUri(jwksUri)
+                                it -> it.jwtDecoder(JwtDecoders.fromIssuerLocation(issuerURI))
                         )
                 )
                 .build();

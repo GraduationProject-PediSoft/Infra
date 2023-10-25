@@ -17,12 +17,4 @@ spring:
           enabled: true
           lower-case-service-id: true
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${JWKS_URI}
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
+issuerURI: ${ISSUER_URI}
