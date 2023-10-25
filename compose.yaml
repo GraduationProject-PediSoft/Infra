@@ -15,6 +15,7 @@ services:
     build: ./apigateway
     environment:
       EUREKA_URL: ${EUREKA_URL}
+      JWKS_URI: ${JWKS_URI}
     networks:
       - tesis
 
