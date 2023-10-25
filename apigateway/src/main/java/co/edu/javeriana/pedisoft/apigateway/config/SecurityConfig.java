@@ -36,18 +36,4 @@ public class SecurityConfig {
                 )
                 .build();
     }
-
-    @Bean
-    public CorsWebFilter corsWebFilter() {
-        val corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(List.of("http://tesis.10.43.101.226.nip.io")); // Set your allowed origins here
-        corsConfig.addAllowedMethod("*");
-        corsConfig.addAllowedHeader("*");
-        corsConfig.setAllowCredentials(true);
-
-        val source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-
-        return new CorsWebFilter(source);
-    }
 }
