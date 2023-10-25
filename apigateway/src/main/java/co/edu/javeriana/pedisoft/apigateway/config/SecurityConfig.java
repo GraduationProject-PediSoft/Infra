@@ -1,6 +1,7 @@
 package co.edu.javeriana.pedisoft.apigateway.config;
 
 import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,13 +15,23 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
+
+    @Value("${jwt.jwks-uri}")
+    private String jwksUri;
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http){
-        //TODO Enable security
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(ex -> ex.pathMatchers(HttpMethod.POST, "/files").denyAll()
-                        .anyExchange().permitAll())
+                        //This validation is done by the usermanager microservice, so here is not necessary to check
+                        .pathMatchers("/user/**").permitAll()
+                        .anyExchange().authenticated()
+                )
+                .oauth2ResourceServer(
+                        oauth2 -> oauth2.jwt(
+                                it -> it.jwkSetUri(jwksUri)
+                        )
+                )
                 .build();
     }
 
