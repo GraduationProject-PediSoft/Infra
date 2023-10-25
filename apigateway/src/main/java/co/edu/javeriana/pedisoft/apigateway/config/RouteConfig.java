@@ -15,7 +15,7 @@ public class RouteConfig {
     public RouteLocator staticRoutes(RouteLocatorBuilder builder){
         return builder.routes()
                 .route("explorer", r-> r.path("/explorer/**")
-                        .filters(f -> f.rewritePath("/explorer/(?<remaining>.*)", "/${remaining}").filters())
+                        .filters(f -> f.filter(corsFilter).rewritePath("/explorer/(?<remaining>.*)", "/${remaining}").filters())
                         .uri("lb://algorithm-explorer")
                 )
                 .route("files", r-> r.path("/files/**")
