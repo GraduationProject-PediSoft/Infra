@@ -22,9 +22,12 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "*"
-
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - OPTIONS
+              - DELETE
   security:
     oauth2:
       resourceserver:
