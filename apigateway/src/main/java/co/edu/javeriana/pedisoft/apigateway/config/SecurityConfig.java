@@ -1,29 +1,30 @@
 package co.edu.javeriana.pedisoft.apigateway.config;
 
-import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
+import java.util.List;
 
 
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private NimbusReactiveJwtDecoder nimbusReactiveJwtDecoder;
+    @Value("${JWK_URI}")
+    private String jwkURI;
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http){
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+		.cors(Customizer.withDefaults())
                 .authorizeExchange(ex -> ex.pathMatchers(HttpMethod.POST, "/files/").denyAll()
                         //This validation is done by the usermanager microservice, so here is not necessary to check
                         .pathMatchers("/user/**").permitAll()
@@ -31,20 +32,23 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.jwt(
-                                it -> it.jwtDecoder(nimbusReactiveJwtDecoder)
+                                it -> it.jwkSetUri(jwkURI)
                         )
                 )
                 .build();
     }
 
     @Bean
-    public CorsWebFilter corsFilter() {
-        val config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        val source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return new CorsWebFilter(source);
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+        //configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

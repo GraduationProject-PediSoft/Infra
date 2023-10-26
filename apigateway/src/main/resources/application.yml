@@ -17,4 +17,4 @@ spring:
           enabled: true
           lower-case-service-id: true
 
-issuerURI: ${ISSUER_URI}
+jwkURI: ${JWK_URI}
