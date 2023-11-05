@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RouteConfig {
 
+    /**
+     * Route configuration. The IA Services are registered in the eureka server using a unique name.
+     * That name is used as the route for accessing it through the gateway
+     * @param builder Route builder
+     * @return Route locator with the static routes
+     */
     @Bean
     public RouteLocator staticRoutes(RouteLocatorBuilder builder){
         return builder.routes()

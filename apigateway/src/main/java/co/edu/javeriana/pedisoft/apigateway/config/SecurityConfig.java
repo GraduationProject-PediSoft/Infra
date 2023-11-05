@@ -20,6 +20,15 @@ public class SecurityConfig {
 
     @Value("${JWK_URI}")
     private String jwkURI;
+
+    /**
+     * Simple http server configuration
+     * Denies all the POST traffic to the /files/ path, that path represents the file upload to the system
+     * It is denied at least in this version because the user should not be able to upload directly to the system
+     * at least not yet
+     * @param http ServerHttpSecurity
+     * @return SecurityWebFilterChain
+     */
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http){
         return http
@@ -38,6 +47,10 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Cors configuration for the system, should be updated if deployed in a real public network
+     * @return Cors Config
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
