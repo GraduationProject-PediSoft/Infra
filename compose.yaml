@@ -1,0 +1,29 @@
+# Create network: docker network create tesis
+version: "3.9"
+
+services:
+  eureka:
+    hostname: eureka-server
+    build: ./discovery
+    environment:
+      EUREKA_URL: ${EUREKA_URL}
+    networks:
+      - tesis
+
+  gateway:
+    hostname: apigateway
+    build: ./apigateway
+    environment:
+      EUREKA_URL: ${EUREKA_URL}
+      JWK_URI: ${JWK_URI}
+    networks:
+      - tesis
+
+    ports:
+      - "15000:8080"
+
+
+networks:
+  tesis:
+    driver: bridge
+    external: true
